@@ -94,22 +94,20 @@
         }
 
         button {
-            width: 100px;
-            height: 40px;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
             border: none;
-            background: url('pngegg.png') center/contain no-repeat;
+            border-radius: 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
             color: white;
             cursor: pointer;
-            transition: transform 0.3s;
-            font-size: 1.1rem;
-            position: relative;
-            padding: 0;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
         }
 
         button:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
         }
 
         .sparkle {
