@@ -477,18 +477,29 @@
         // เริ่มต้นสร้างดาวบนท้องฟ้า
         createStars();
 
-        // จัดการหน้า preloader
-        const preloader = document.getElementById('preloader');
+        // ตั้งค่าเริ่มต้นสำหรับเพลงพื้นหลัง
         const bgMusic = document.getElementById('bgMusic');
         bgMusic.volume = 0.3; // ตั้งความดังที่ 30%
 
-        // เริ่มเล่นเพลงเมื่อคลิกปุ่มเริ่มต้น
-        preloader.addEventListener('click', () => {
-            bgMusic.play().then(() => {
-                preloader.classList.add('hidden');
-            }).catch(error => {
-                console.error('Error playing music:', error);
-                preloader.classList.add('hidden');
+        // ฟังก์ชันเริ่มเล่นเพลง
+        function playBackgroundMusic() {
+            bgMusic.muted = false;
+            bgMusic.play();
+            document.removeEventListener('DOMContentLoaded', playBackgroundMusic);
+            document.removeEventListener('click', playBackgroundMusic);
+            document.removeEventListener('touchstart', playBackgroundMusic);
+        }
+
+        // พยายามเล่นเพลงทันทีที่โหลดหน้าเว็บ
+        document.addEventListener('DOMContentLoaded', playBackgroundMusic);
+        // และเล่นเมื่อมีการ interact กับหน้าเว็บ
+        document.addEventListener('click', playBackgroundMusic);
+        document.addEventListener('touchstart', playBackgroundMusic);
+
+        // พยายามเล่นเพลงทันทีที่โหลดหน้าเว็บ
+        window.addEventListener('load', () => {
+            bgMusic.play().catch(() => {
+                console.log('Waiting for user interaction...');
             });
         });
 
