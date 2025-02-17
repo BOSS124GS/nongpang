@@ -110,6 +110,28 @@
             box-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
         }
 
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            width: 20px;
+            height: 20px;
+            background-image: url('pngegg.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: sparkleAnimation 0.8s linear forwards;
+        }
+
+        @keyframes sparkleAnimation {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         .shooting-star {
             position: absolute;
             width: 4px;
@@ -215,9 +237,39 @@
         ];
 
         // ฟังก์ชันหลักเมื่อกดปุ่มขอพร
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            document.body.appendChild(sparkle);
+            
+            sparkle.addEventListener('animationend', () => {
+                sparkle.remove();
+            });
+        }
+
+        function createButtonSparkles(button) {
+            const rect = button.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 12; i++) {
+                const angle = (i * 30) * (Math.PI / 180);
+                const distance = 60;
+                const x = centerX + Math.cos(angle) * distance - 10;
+                const y = centerY + Math.sin(angle) * distance - 10;
+                
+                setTimeout(() => createSparkle(x, y), i * 50);
+            }
+        }
+
         function makeWish() {
             const userWish = document.querySelector('textarea').value;
             if (!userWish.trim()) return;
+            
+            const button = document.querySelector('button');
+            createButtonSparkles(button);
 
             // สร้างดาวตกหลายดวง
             for (let i = 0; i < 5; i++) {
