@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>สั่งดาวให้เธอ</title>
+    <script>
+        // พยายามเล่นเพลงก่อนที่หน้าเว็บจะโหลดเสร็จ
+        window.onload = function() {
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.3;
+            bgMusic.play().catch(function(error) {
+                console.log("Auto-play failed:", error);
+            });
+        }
+    </script>
     <style>
         * {
             margin: 0;
@@ -445,11 +455,25 @@
         const bgMusic = document.getElementById('bgMusic');
         bgMusic.volume = 0.3; // ตั้งความดังที่ 30%
 
-        // เริ่มเล่นเพลงอัตโนมัติ
-        window.addEventListener('load', () => {
+        // ฟังก์ชันเริ่มเล่นเพลง
+        function playBackgroundMusic() {
             bgMusic.muted = false;
-            bgMusic.play().catch(error => {
-                console.log('Auto-play was prevented');
+            bgMusic.play();
+            document.removeEventListener('DOMContentLoaded', playBackgroundMusic);
+            document.removeEventListener('click', playBackgroundMusic);
+            document.removeEventListener('touchstart', playBackgroundMusic);
+        }
+
+        // พยายามเล่นเพลงทันทีที่โหลดหน้าเว็บ
+        document.addEventListener('DOMContentLoaded', playBackgroundMusic);
+        // และเล่นเมื่อมีการ interact กับหน้าเว็บ
+        document.addEventListener('click', playBackgroundMusic);
+        document.addEventListener('touchstart', playBackgroundMusic);
+
+        // พยายามเล่นเพลงทันทีที่โหลดหน้าเว็บ
+        window.addEventListener('load', () => {
+            bgMusic.play().catch(() => {
+                console.log('Waiting for user interaction...');
             });
         });
 
