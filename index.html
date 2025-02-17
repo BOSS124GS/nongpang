@@ -338,13 +338,14 @@
         // ฟังก์ชันหลักเมื่อกดปุ่มขอพร
         // สร้างฟองสบู่ดาว
     // สร้างฟองสบู่ดาว
+// สร้างฟองสบู่ดาว
 function createBubbleStar() {
     // เพิ่มความหลากหลายของดาว
     const starTypes = ['⭐', '🌟', '✨', '💫'];
     const starSizes = ['20px', '24px', '28px', '32px'];
     
-    // สร้างดาว 250 ดวง
-    for (let i = 0; i < 250; i++) {
+    // ลดจำนวนดาวเหลือ 50 ดวง
+    for (let i = 0; i < 50; i++) {
         setTimeout(() => {
             const star = document.createElement('div');
             star.className = 'bubble-star';
@@ -369,33 +370,44 @@ function createBubbleStar() {
             
             // ลบดาวหลังจากแอนิเมชันจบ
             setTimeout(() => star.remove(), 6000);
-        }, i * 15); // ลดระยะเวลาระหว่างการสร้างดาว
+        }, i * 50); // เพิ่มระยะห่างระหว่างดาวแต่ละดวงเป็น 50ms
     }
 }
 
 // สร้างหัวใจลอย
 function createFloatingHeart(x, y) {
-    const heartTypes = ['💖', '💗', '💓', '💝', '💕'];
-    const heart = document.createElement('div');
-    heart.className = 'floating-heart';
+    // เพิ่มรูปแบบหัวใจให้หลากหลายขึ้น
+    const heartTypes = ['💖', '💗', '💓', '💝', '💕', '❤️', '💘', '💞'];
     
-    // สุ่มรูปแบบหัวใจ
-    const randomHeart = heartTypes[Math.floor(Math.random() * heartTypes.length)];
-    heart.innerHTML = randomHeart;
-    
-    heart.style.left = `${x}px`;
-    heart.style.top = `${y}px`;
-    
-    // สุ่มทิศทางการลอย
-    const tx = (Math.random() - 0.5) * 200;
-    const ty = -100 - Math.random() * 100;
-    heart.style.setProperty('--tx', `${tx}px`);
-    heart.style.setProperty('--ty', `${ty}px`);
-    
-    document.body.appendChild(heart);
-    
-    // ลบ element หลังจากแอนิเมชันจบ
-    setTimeout(() => heart.remove(), 3000);
+    // สร้างหัวใจ 15 ดวง
+    for(let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            
+            // สุ่มรูปแบบหัวใจ
+            const randomHeart = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+            heart.innerHTML = randomHeart;
+            
+            // สุ่มตำแหน่งรอบๆ จุดที่คลิก
+            const offsetX = (Math.random() - 0.5) * 100; // สุ่มระยะห่างซ้าย-ขวา
+            const offsetY = (Math.random() - 0.5) * 100; // สุ่มระยะห่างบน-ล่าง
+            
+            heart.style.left = `${x + offsetX}px`;
+            heart.style.top = `${y + offsetY}px`;
+            
+            // สุ่มทิศทางการลอย
+            const tx = (Math.random() - 0.5) * 200;
+            const ty = -150 - Math.random() * 100;
+            heart.style.setProperty('--tx', `${tx}px`);
+            heart.style.setProperty('--ty', `${ty}px`);
+            
+            document.body.appendChild(heart);
+            
+            // ลบ element หลังจากแอนิเมชันจบ
+            setTimeout(() => heart.remove(), 3000);
+        }, i * 100); // สร้างหัวใจทุกๆ 100ms
+    }
 }
 
         function makeWish() {
