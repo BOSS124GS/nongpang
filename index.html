@@ -162,62 +162,54 @@
             opacity: 1;
         }
 
-        /* สไตล์สำหรับฟองสบู่ดาว */
         .bubble-star {
-            position: absolute;
-            pointer-events: none;
-            animation: bubbleFloat 6s ease-in-out forwards;
-            z-index: 1000;
-        }
+    position: absolute;
+    pointer-events: none;
+    animation: bubbleFloat 6s ease-in-out forwards;
+    z-index: 1000;
+    opacity: 0;
+    transform-origin: center;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
 
-        .bubble-star::before {
-            content: '⭐';
-            position: absolute;
-            font-size: 24px;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            border-radius: 50%;
-            padding: 15px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2),
-                        inset 0 0 15px rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(2px);
-        }
+@keyframes bubbleFloat {
+    0% {
+        transform: translateY(0) translateX(0) scale(0.3);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-120vh) translateX(var(--moveX)) scale(1.2);
+        opacity: 0;
+    }
+}
 
-        @keyframes bubbleFloat {
-            0% {
-                transform: translateY(0) translateX(0) scale(0.3);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-120vh) translateX(var(--moveX)) scale(1.2);
-                opacity: 0;
-            }
-        }
+.floating-heart {
+    position: absolute;
+    pointer-events: none;
+    animation: floatHeart 3s ease-in-out forwards;
+    z-index: 1000;
+    font-size: 24px;
+}
 
-        /* สไตล์สำหรับหัวใจ */
-        .floating-heart {
-            position: absolute;
-            color: pink;
-            font-size: 12px;
-            pointer-events: none;
-            animation: floatHeart 3s ease-in-out forwards;
-        }
-
-        @keyframes floatHeart {
-            0% {
-                transform: translate(0, 0) scale(0.5);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(1);
-                opacity: 0;
-            }
-        }
+@keyframes floatHeart {
+    0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(1.5);
+        opacity: 0;
+    }
+}
 
         @media (max-width: 600px) {
             h1 {
@@ -345,37 +337,66 @@
 
         // ฟังก์ชันหลักเมื่อกดปุ่มขอพร
         // สร้างฟองสบู่ดาว
-        function createBubbleStar() {
+    // สร้างฟองสบู่ดาว
+function createBubbleStar() {
+    // เพิ่มความหลากหลายของดาว
+    const starTypes = ['⭐', '🌟', '✨', '💫'];
+    const starSizes = ['20px', '24px', '28px', '32px'];
+    
+    // สร้างดาว 250 ดวง
+    for (let i = 0; i < 250; i++) {
+        setTimeout(() => {
             const star = document.createElement('div');
             star.className = 'bubble-star';
-            star.innerHTML = '⭐';
+            
+            // สุ่มรูปแบบดาว
+            const randomStarType = starTypes[Math.floor(Math.random() * starTypes.length)];
+            star.innerHTML = randomStarType;
+            
+            // สุ่มขนาด
+            const randomSize = starSizes[Math.floor(Math.random() * starSizes.length)];
+            star.style.fontSize = randomSize;
+            
+            // สุ่มตำแหน่งเริ่มต้น
             star.style.left = `${Math.random() * 100}%`;
             star.style.bottom = '0';
+            
+            // สุ่มการเคลื่อนที่แนวนอน
+            const moveX = (Math.random() - 0.5) * 400;
+            star.style.setProperty('--moveX', `${moveX}px`);
+            
             document.body.appendChild(star);
             
-            // ลบ element หลังจากแอนิเมชันจบ
-            setTimeout(() => star.remove(), 4000);
-        }
+            // ลบดาวหลังจากแอนิเมชันจบ
+            setTimeout(() => star.remove(), 6000);
+        }, i * 15); // ลดระยะเวลาระหว่างการสร้างดาว
+    }
+}
 
-        // สร้างหัวใจลอย
-        function createFloatingHeart(x, y) {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.innerHTML = '💖';
-            heart.style.left = `${x}px`;
-            heart.style.top = `${y}px`;
-            
-            // สุ่มทิศทางการลอย
-            const tx = (Math.random() - 0.5) * 100;
-            const ty = -50 - Math.random() * 50;
-            heart.style.setProperty('--tx', `${tx}px`);
-            heart.style.setProperty('--ty', `${ty}px`);
-            
-            document.body.appendChild(heart);
-            
-            // ลบ element หลังจากแอนิเมชันจบ
-            setTimeout(() => heart.remove(), 3000);
-        }
+// สร้างหัวใจลอย
+function createFloatingHeart(x, y) {
+    const heartTypes = ['💖', '💗', '💓', '💝', '💕'];
+    const heart = document.createElement('div');
+    heart.className = 'floating-heart';
+    
+    // สุ่มรูปแบบหัวใจ
+    const randomHeart = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+    heart.innerHTML = randomHeart;
+    
+    heart.style.left = `${x}px`;
+    heart.style.top = `${y}px`;
+    
+    // สุ่มทิศทางการลอย
+    const tx = (Math.random() - 0.5) * 200;
+    const ty = -100 - Math.random() * 100;
+    heart.style.setProperty('--tx', `${tx}px`);
+    heart.style.setProperty('--ty', `${ty}px`);
+    
+    document.body.appendChild(heart);
+    
+    // ลบ element หลังจากแอนิเมชันจบ
+    setTimeout(() => heart.remove(), 3000);
+}
 
         function makeWish() {
             const userWish = document.querySelector('textarea').value;
@@ -383,7 +404,7 @@
             
             // เล่นเสียง shine
             const shineSound = document.getElementById('shineSound');
-            shineSound.volume = 0.5; // ตั้งระดับเสียงที่ 50%
+            shineSound.volume = 0.1; // ตั้งระดับเสียงที่ 10%
             shineSound.currentTime = 0; // รีเซ็ตเสียงให้เล่นตั้งแต่ต้น
             shineSound.play();
             
