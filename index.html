@@ -9,8 +9,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- React and ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
     
     <!-- Lucide Icons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
@@ -51,10 +54,13 @@
     
     <!-- Main App Script -->
     <script type="module">
-        import WishUponStar from './WishUponStar.jsx';
+        import WishUponStar from './WishUponStar.component.jsx';
         
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(React.createElement(WishUponStar));
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(React.createElement(WishUponStar));
+        });
     </script>
 </body>
 </html>
