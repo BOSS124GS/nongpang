@@ -179,6 +179,9 @@
     </style>
 </head>
 <body>
+    <!-- เพิ่ม audio element ตรงนี้ -->
+    <audio id="shineSound" src="shine-7-268909.mp3" preload="auto"></audio>
+    
     <div class="stars"></div>
     <div class="container">
         <h1>✨ สั่งดาวให้เธอ ✨</h1>
@@ -236,7 +239,7 @@
             "💫 ขอให้ทุกความปรารถนาเป็นจริง ดั่งดาวตกที่พร่างพราว 💫"
         ];
 
-        // ฟังก์ชันหลักเมื่อกดปุ่มขอพร
+        // สร้างเอฟเฟกต์ประกาย
         function createSparkle(x, y) {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
@@ -264,9 +267,15 @@
             }
         }
 
+        // ฟังก์ชันหลักเมื่อกดปุ่มขอพร
         function makeWish() {
             const userWish = document.querySelector('textarea').value;
             if (!userWish.trim()) return;
+            
+            // เล่นเสียง shine
+            const shineSound = document.getElementById('shineSound');
+            shineSound.currentTime = 0; // รีเซ็ตเสียงให้เล่นตั้งแต่ต้น
+            shineSound.play();
             
             const button = document.querySelector('button');
             createButtonSparkles(button);
