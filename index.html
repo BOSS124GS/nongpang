@@ -515,63 +515,70 @@
         }
 
         function createBubbleStar() {
-            const effectsContainer = document.querySelector('.effects-container');
-            const starTypes = ['⭐', '🌟', '✨', '💫'];
-            const starSizes = ['20px', '24px', '28px', '32px'];
+    const effectsContainer = document.querySelector('.effects-container');
+    const starTypes = ['⭐', '🌟', '✨', '💫'];
+    const starSizes = ['20px', '24px', '28px', '32px'];
+    
+    // ลดจำนวนดาวลงเหลือ 20 ดวงสำหรับมือถือ
+    const isMobile = window.innerWidth <= 768;
+    const starCount = isMobile ? 20 : 50;
+    const delayTime = isMobile ? 80 : 50;
+    
+    for (let i = 0; i < starCount; i++) {
+        setTimeout(() => {
+            const star = document.createElement('div');
+            star.className = 'bubble-star';
             
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const star = document.createElement('div');
-                    star.className = 'bubble-star';
-                    
-                    const randomStarType = starTypes[Math.floor(Math.random() * starTypes.length)];
-                    star.innerHTML = randomStarType;
-                    
-                    const randomSize = starSizes[Math.floor(Math.random() * starSizes.length)];
-                    star.style.fontSize = randomSize;
-                    
-                    star.style.left = `${Math.random() * 100}%`;
-                    star.style.bottom = '0';
-                    
-                    const moveX = (Math.random() - 0.5) * 400;
-                    star.style.setProperty('--moveX', `${moveX}px`);
-                    
-                    effectsContainer.appendChild(star);
-                    
-                    setTimeout(() => star.remove(), 6000);
-                }, i * 50);
-            }
-        }
+            const randomStarType = starTypes[Math.floor(Math.random() * starTypes.length)];
+            star.innerHTML = randomStarType;
+            
+            const randomSize = starSizes[Math.floor(Math.random() * starSizes.length)];
+            star.style.fontSize = randomSize;
+            
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.bottom = '0';
+            
+            const moveX = (Math.random() - 0.5) * (isMobile ? 200 : 400);
+            star.style.setProperty('--moveX', `${moveX}px`);
+            
+            effectsContainer.appendChild(star);
+            
+            setTimeout(() => star.remove(), 6000);
+        }, i * delayTime);
+    }
+}
 
         function createFloatingHeart(x, y) {
-            const effectsContainer = document.querySelector('.effects-container');
-            const heartTypes = ['💖', '💗', '💓', '💝', '💕', '❤️', '💘', '💞'];
+    const effectsContainer = document.querySelector('.effects-container');
+    const heartTypes = ['💖', '💗', '💓', '💝', '💕'];
+    const isMobile = window.innerWidth <= 768;
+    const heartCount = isMobile ? 8 : 15;
+    
+    for(let i = 0; i < heartCount; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
             
-            for(let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'floating-heart';
-                    
-                    const randomHeart = heartTypes[Math.floor(Math.random() * heartTypes.length)];
-                    heart.innerHTML = randomHeart;
-                    
-                    const offsetX = (Math.random() - 0.5) * 100;
-                    const offsetY = (Math.random() - 0.5) * 100;
-                    
-                    heart.style.left = `${x + offsetX}px`;
-                    heart.style.top = `${y + offsetY}px`;
-                    
-                    const tx = (Math.random() - 0.5) * 200;
-                    const ty = -150 - Math.random() * 100;
-                    heart.style.setProperty('--tx', `${tx}px`);
-                    heart.style.setProperty('--ty', `${ty}px`);
-                    
-                    effectsContainer.appendChild(heart);
-                    
-                    setTimeout(() => heart.remove(), 3000);
-                }, i * 100);
-            }
-        }
+            const randomHeart = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+            heart.innerHTML = randomHeart;
+            
+            const offsetX = (Math.random() - 0.5) * (isMobile ? 50 : 100);
+            const offsetY = (Math.random() - 0.5) * (isMobile ? 50 : 100);
+            
+            heart.style.left = `${x + offsetX}px`;
+            heart.style.top = `${y + offsetY}px`;
+            
+            const tx = (Math.random() - 0.5) * (isMobile ? 100 : 200);
+            const ty = -50 - Math.random() * (isMobile ? 50 : 100);
+            heart.style.setProperty('--tx', `${tx}px`);
+            heart.style.setProperty('--ty', `${ty}px`);
+            
+            effectsContainer.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 3000);
+        }, i * (isMobile ? 150 : 100));
+    }
+}
 
         const wishMessages = [
             "✨ แป้งครับ ทุกครั้งที่มองดาวบนฟ้า บอสก็นึกถึงรอยยิ้มของแป้งเสมอ ขอให้ดาวทุกดวงส่งความรักของบอสไปถึงแป้งนะ ✨",
@@ -617,51 +624,56 @@
         }
 
         function makeWish() {
-            const userWish = document.querySelector('textarea').value;
-            if (!userWish.trim()) return;
-            
-            const shineSound = document.getElementById('shineSound');
-            shineSound.volume = 0.1;
-            shineSound.currentTime = 0;
-            shineSound.play();
-            
-            const button = document.querySelector('button');
-            createButtonSparkles(button);
+    const userWish = document.querySelector('textarea').value;
+    if (!userWish.trim()) return;
+    
+    const isMobile = window.innerWidth <= 768;
+    
+    const shineSound = document.getElementById('shineSound');
+    shineSound.volume = 0.1;
+    shineSound.currentTime = 0;
+    shineSound.play();
+    
+    const button = document.querySelector('button');
+    createButtonSparkles(button);
 
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => createShootingStar(), i * 200);
-            }
+    // ลดจำนวนดาวตกสำหรับมือถือ
+    const shootingStarCount = isMobile ? 3 : 5;
+    for (let i = 0; i < shootingStarCount; i++) {
+        setTimeout(() => createShootingStar(), i * 200);
+    }
 
-            const wishMessage = document.querySelector('.wish-message');
-            const randomMessage = wishMessages[Math.floor(Math.random() * wishMessages.length)];
-            wishMessage.innerHTML = `
-                <h2>${randomMessage}</h2>
-                <p style="margin-top: 1rem; font-style: italic;">"${userWish}"</p>
-            `;
-            wishMessage.classList.add('show');
+    const wishMessage = document.querySelector('.wish-message');
+    const randomMessage = wishMessages[Math.floor(Math.random() * wishMessages.length)];
+    wishMessage.innerHTML = `
+        <h2>${randomMessage}</h2>
+        <p style="margin-top: 1rem; font-style: italic;">"${userWish}"</p>
+    `;
+    wishMessage.classList.add('show');
 
-           // บันทึกคำอวยพร
-            saveWish(randomMessage, userWish);
+    saveWish(randomMessage, userWish);
 
-            for (let i = 0; i < 8; i++) {
-                setTimeout(() => createBubbleStar(), i * 300);
-            }
+    // ลดจำนวนครั้งการสร้างดาวสำหรับมือถือ
+    const bubbleStarCount = isMobile ? 4 : 8;
+    for (let i = 0; i < bubbleStarCount; i++) {
+        setTimeout(() => createBubbleStar(), i * 300);
+    }
 
-            const messageRect = wishMessage.getBoundingClientRect();
-            const createHearts = setInterval(() => {
-                const x = messageRect.left + Math.random() * messageRect.width;
-                const y = messageRect.top + Math.random() * messageRect.height;
-                createFloatingHeart(x, y);
-            }, 500);
+    const messageRect = wishMessage.getBoundingClientRect();
+    const heartInterval = isMobile ? 800 : 500;
+    const createHearts = setInterval(() => {
+        const x = messageRect.left + Math.random() * messageRect.width;
+        const y = messageRect.top + Math.random() * messageRect.height;
+        createFloatingHeart(x, y);
+    }, heartInterval);
 
-            setTimeout(() => {
-                wishMessage.classList.remove('show');
-                clearInterval(createHearts);
-            }, 5000);
+    setTimeout(() => {
+        wishMessage.classList.remove('show');
+        clearInterval(createHearts);
+    }, 5000);
 
-            // เคลียร์ textarea
-            document.querySelector('textarea').value = '';
-        }
+    document.querySelector('textarea').value = '';
+}
 
         // ตั้งค่าเริ่มต้น
         createStars();
